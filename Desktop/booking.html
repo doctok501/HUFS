@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>booking</title>
+</head>
+<body>
+    <h3>레스토랑 예약하기</h3>
+<hr>
+<form>
+    <fieldset>
+        <legend>예약자 정보</legend>
+    
+예약자 :
+<input type="text" size="15" value=""><br>
+휴대폰 :
+<input type="text" size="15" value=""><br>
+예약인원 :
+<select name="people">
+    <option value="1">1</option>
+    <option value="2" selected>2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    </select>
+</fieldset>
+</datalist>
+    <fieldset>
+        <legend>일자 선택 및 시간 선택</legend>
+        날짜 :
+        <input type="date"><br>
+        시간 :
+        <input type="time"><br>
+        위치 :
+        본관 <input type="checkbox" value="1">
+        별관 <input type="checkbox" value="2"><br>
+        옵션 :
+        단독룸 <input type="checkbox" value="1">
+        아기의자 <input type="checkbox" value="2">
+        채식요리 <input type="checkbox" value="3">
+    </fieldset>
+    <input type="button" value="예약"> <input type="button" value="취소">
+</form>
+</body>
+</html>
