@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<head>
+
+    <title>Mid-2</title>
+    <style>
+        h1{text-align: center;}
+        h2{text-align: center;}
+        td{
+            float: left;
+            border: 3px solid green;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 35px;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+        function changeIMG(){
+            var img1 = document.getElementById("img1")
+            img1.src = "media/mark_o.png"
+        }
+        $("#button1").click(function changeIMG(){
+            
+        })
+
+    </script>
+    <h1>틱택토</h1>
+    <h2>202000907 김인겸</h2>
+    <table>
+        <tr id="tr1">
+            <td id="01"><img id = img1 src="media/mark_null.png" width = "35" height="35" onclick="changeIMG()"></td>
+            <td id="02"><img  id = img1 src="media/mark_null.png" width = "35" height="35" onclick="changeIMG()"></td>
+            <td id="03"><img id = img1  src="media/mark_null.png" width = "35" height="35" onclick="changeIMG()"></td>
+        </tr>
+        <tr id="tr2">
+            <td><img src="media/mark_null.png" width = "35" height="35" " onclick="changeIMG()"></td>
+            <td><img src="media/mark_null.png" width = "35" height="35" " onclick="changeIMG()"></td>
+            <td><img src="media/mark_null.png" width = "35" height="35" " onclick="changeIMG()"></td>
+        </tr>
+        <tr id="tr3">
+            <td><img src="media/mark_null.png" width = "35" height="35" " onclick="changeIMG()"></td>
+            <td><img src="media/mark_null.png" width = "35" height="35" " onclick="changeIMG()"></td>
+            <td><img src="media/mark_null.png" width = "35" height="35" " onclick="changeIMG()"></td>
+        </tr>
+        
+        <label>가로 : <input type="text" size="15" value=""></label>
+        <label>세로 : <input type="text" size="15" value=""></label>
+        <button id = "button1"type="button"><img src="media/mark_o.png" alt="O" width="10" height="10"></button>
+        <button type="button"><img src="media/mark_x.png" alt="X" width="10" height="10"></button>
+    </table>
+</body>
+</html>
