@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>BMIcheck</title>
+    <style>
+        .big{
+            color: darkblue;
+        }
+    </style>
+</head>
+<body> 
+    <script type="text/javascript">
+        var name = prompt("이름을 입력해 주세요")
+        var answer2 = prompt(`${name}님의 키를 입력하세요`)
+        var answer3 = prompt(`${name}님의 몸무게를 입력하세요`)
+        var bmi = ((answer3/(answer2*answer2)))
+        var weight = null
+        var color = "black"
+        if (bmi>=30){
+            weight = "비만"
+            color = "red"
+        }else if (bmi>=25 && bmi < 30){
+            weight = "과체중"
+            color = "orange"
+        }else if (bmi >= 18.5 && bmi < 25.0){
+            weight = "정상"
+            
+        }else{
+            weight = "저체중"
+            color = "blue"
+        }
+        document.write(`<table border = '1'><tr><td style = "font-weight : big;">이름</td><td>${name}</td></tr>
+        <tr><td style = "font-weight : big;">키</td><td>${height}cm</td></tr>
+        <tr><td style = "font-weight : big;">몸무게</td><td>${weight}kg</td></tr>
+        <tr><td style = "font-weight : big;">BMI</td><td>${bmi}cm</td></tr>
+        <tr><td style = "font-weight : big;">비만도</td><td style="font-size: 30px; color:${color}">${overweight}</td></tr>
+        </table>`
+            )
+    </script>
+    
+</body>
+</html>
