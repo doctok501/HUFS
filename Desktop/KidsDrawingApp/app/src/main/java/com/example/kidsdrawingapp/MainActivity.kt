@@ -2,7 +2,9 @@ package com.example.kidsdrawingapp
 
 import android.Manifest
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -17,8 +19,46 @@ import androidx.core.view.get
 
 class MainActivity : AppCompatActivity() {
     private var drawingView: DrawingView? = null
-    private var mImageButtonCurrentPaint: ImageButton? =
-        null // A variable for current color is picked from color pallet.
+    private var mImageButtonCurrentPaint: ImageButton? = null
+
+    val openGalleryLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+         result ->
+        if (result.resultCode == RESULT_OK && result.data!=null){
+            
+        }
+
+    }
+
+    val requestPermission: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){
+            permissions ->
+            permissions.entries.forEach{
+                val permissionName = it.key
+                val isGranted = it.value
+
+                if (isGranted){
+                    Toast.makeText(
+                        this@MainActivity,
+                        "승인하셨습니당><",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    val pickIntent = Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+
+                }else{
+                    if(permissionName == Manifest.permission.READ_EXTERNAL_STORAGE){
+                        Toast.makeText(
+                            this@MainActivity,
+                            "거부하셨습니당><", Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+
+
+        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         drawingView = findViewById(R.id.drawing_view)
         val ibBrush: ImageButton = findViewById(R.id.ib_brush)
         drawingView?.setSizeForBrush(20.toFloat())
+
         val linearLayoutPaintColors = findViewById<LinearLayout>(R.id.ll_paint_colors)
         mImageButtonCurrentPaint = linearLayoutPaintColors[1] as ImageButton
         mImageButtonCurrentPaint?.setImageDrawable(
@@ -34,14 +75,19 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.pallet_pressed
             )
         )
+
+        val ibGallery : ImageButton = findViewById(R.id.ib_gallery)
+        ibGallery.setOnClickListener{
+            requestStoragePermission()
+
+        }
+
+
         ibBrush.setOnClickListener {
             showBrushSizeChooserDialog()
         }
     }
 
-    /**
-     * Method is used to launch the dialog to select different brush sizes.
-     */
     private fun showBrushSizeChooserDialog() {
         val brushDialog = Dialog(this)
         brushDialog.setContentView(R.layout.dialog_brush_size)
@@ -65,22 +111,13 @@ class MainActivity : AppCompatActivity() {
         brushDialog.show()
     }
 
-    // TODO(Step 2 - A function for color selection.)
-    /**
-     * Method is called when color is clicked from pallet_normal.
-     *
-     * @param view ImageButton on which click took place.
-     */
     fun paintClicked(view: View) {
         if (view !== mImageButtonCurrentPaint) {
-            // Update the color
             val imageButton = view as ImageButton
-            // Here the tag is used for swaping the current color with previous color.
-            // The tag stores the selected view
             val colorTag = imageButton.tag.toString()
-            // The color is set as per the selected tag here.
+
             drawingView?.setColor(colorTag)
-            // Swap the backgrounds for last active and currently active image button.
+
             imageButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.pallet_pressed))
             mImageButtonCurrentPaint?.setImageDrawable(
                 ContextCompat.getDrawable(
@@ -89,9 +126,40 @@ class MainActivity : AppCompatActivity() {
                 )
             )
 
-            //Current view is updated with selected view in the form of ImageButton.
+
             mImageButtonCurrentPaint = view
         }
     }
+
+    private fun requestStoragePermission(){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(
+                this, Manifest.permission.READ_EXTERNAL_STORAGE)
+
+        ) {
+            showRationalDialog("어린이 그리기 앱><","어린이 그림 그리기 앱은" + "접근 권한 승인이 필요해용ㅎㅎ")
+
+            }else{
+                requestPermission.launch(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE
+                    ,Manifest.permission.WRITE_EXTERNAL_STORAGE
+                //외부 저장소 데이터 출력 추가 하기!
+            ))
+            }
+            }
+
+
+
+
+
+    private fun showRationalDialog(
+        title : String, message : String
+    ){
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Cancel"){dialog, _ -> dialog.dismiss()
+            }
+        builder.create().show()
+    }
+
 
 }
