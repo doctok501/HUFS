@@ -9,39 +9,34 @@ import android.view.View
 
 class DrawingView(context: Context,attrs:AttributeSet): View(context,attrs) {
     private var mDrawPath: CustomPath? =
-        null // An variable of CustomPath inner class to use it further.
-    private var mCanvasBitmap: Bitmap? = null // An instance of the Bitmap.
+        null
+    private var mCanvasBitmap: Bitmap? = null
 
     private var mDrawPaint: Paint? =
-        null // The Paint class holds the style and color information about how to draw geometries, text and bitmaps.
-    private var mCanvasPaint: Paint? = null // Instance of canvas paint view.
+        null
+    private var mCanvasPaint: Paint? = null
 
     private var mBrushSize: Float =
-        0.toFloat() // A variable for stroke/brush size to draw on the canvas.
+        0.toFloat()
 
-    // A variable to hold a color of the stroke.
     private var color = Color.BLACK
-
-    /**
-     * A variable for canvas which will be initialized later and used.
-     *
-     *The Canvas class holds the "draw" calls. To draw something, you need 4 basic components: A Bitmap to hold the pixels, a Canvas to host
-     * the draw calls (writing into the bitmap), a drawing primitive (e.g. Rect,
-     * Path, text, Bitmap), and a paint (to describe the colors and styles for the
-     * drawing)
-     */
     private var canvas: Canvas? = null
-
-    private val mPaths = ArrayList<CustomPath>() // ArrayList for Paths
+    private val mPaths = ArrayList<CustomPath>()
+    private val mUndopaths = ArrayList<CustomPath>()
 
     init {
         setUpDrawing()
     }
 
-    /**
-     * This method initializes the attributes of the
-     * ViewForDrawing class.
-     */
+    fun onClickUndo(){
+        if(mPaths.size > 0){
+            mUndopaths.add(mPaths.removeAt(mPaths.size - 1))
+             invalidate()
+        }
+
+    }
+
+
     private fun setUpDrawing() {
         mDrawPaint = Paint()
         mDrawPath = CustomPath(color, mBrushSize)
